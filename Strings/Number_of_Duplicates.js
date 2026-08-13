@@ -1,5 +1,5 @@
-// let str= "what is going on with you asghar?"
-let str="what is?"
+// let str= "what is going on with you asghar?"  //string with duplicate character
+let str="what is?"                               //string with no duplicate character
 let dict={}
 let count=0
 for (let s of str){
@@ -13,7 +13,7 @@ for (s in dict){
     }
 }
 if(count===0){
-    console.log("No duplicate found")
+    console.log("No duplicate character found")
     return
 }
-console.log(`Total Duplicates: ${count}`)
+console.log(`Total Duplicates Character: ${count}`)
