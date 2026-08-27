@@ -21,12 +21,13 @@ class LinkedList {
         }
         current.next = newNode;
     }
-    traverse() {
-        let current = this.head
-        while (current !== null) {
-            console.log(current.value, " ")
-            current = current.next
+    traverse(){
+        let current=this.head
+        while(current!==null){
+            console.log(current.value,"")
+            current=current.next
         }
+        console.log("\n");
     }
 }
 const list = new LinkedList();
@@ -35,24 +36,24 @@ list.append(20);
 list.append(30);
 list.append(40);
 list.traverse()
-console.log("\n");
 
 
-function DeleteNodeByValue(head, value) {
-    let current = head
-    if (head === null) return null
-    if (head.value === value) {
-        head = head.next;
-        return head
+function Delete_Node_At_Given_Position(head,pos){
+    if (head===null) return null
+    if(pos===1) return head.next
+    let current=head;
+    let count=1
+    while(current.next!==null && count<pos-1){
+        current=current.next;
+        count++
     }
-    while (current.next !== null) {
-        if (current.next.value === value) {
-            current.next = current.next.next
-            return head
-        }
-        current = current.next
-    }
+    if(current.next===null)  return head
+    
+    current.next=current.next.next
     return head
 }
-list.head = DeleteNodeByValue(list.head, 20)
+
+list.head=Delete_Node_At_Given_Position(list.head,1)
+list.traverse()
+list.head=Delete_Node_At_Given_Position(list.head,3)
 list.traverse()
