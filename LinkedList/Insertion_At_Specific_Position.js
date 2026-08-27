@@ -21,7 +21,7 @@ class LinkedList {
         }
         current.next = newNode;
     }
-    traverse(){
+        traverse(){
         let current=this.head
         while(current!==null){
             console.log(current.value," ")
@@ -34,5 +34,37 @@ list.append(10);
 list.append(20);
 list.append(30);
 list.append(40);
-list.traverse()
 
+
+function insertAtPosition(head,value,pos){
+    const newNode=new Node(value)
+
+    if(pos<1) return head;
+    if(head===null){
+        if(pos===1){
+            return newNode
+        }
+        return head
+    }
+    if(pos===1){
+        newNode.next = head
+        return newNode
+    }
+
+    let current=head;
+    let count=1
+
+    while(current.next!==null && count<pos-1){
+        current=current.next;
+        count++
+    }
+    if(count!==pos-1){
+        return head
+    }
+    newNode.next=current.next
+    current.next=newNode
+    return head
+}
+
+list.head=insertAtPosition(list.head,23,0)
+list.traverse()
