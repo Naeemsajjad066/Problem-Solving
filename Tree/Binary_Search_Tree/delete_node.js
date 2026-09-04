@@ -29,6 +29,14 @@ class BinarySearchTree {
         console.log(node.value)
         this.inOrder(node.right)
     }
+    minValueNode(root){
+        let current=root
+        while(current.left!==null){
+            current=current.left
+        }
+        return current
+    }
+
     deleteNode(root, value) {
         if(root===null) return null
         if(value<root.value){
@@ -44,6 +52,11 @@ class BinarySearchTree {
             }
             if(root.right!==null && root.left===null){
                 return root.right
+            }
+            if(root.left!==null && root.right!==null){
+                let successor=this.minValueNode(root.right)
+                root.value=successor.value
+                root.right=this.deleteNode(root.right,successor.value)
             }
         }
         return root
