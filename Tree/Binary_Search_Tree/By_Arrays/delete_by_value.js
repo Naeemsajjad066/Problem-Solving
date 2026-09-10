@@ -36,68 +36,46 @@ class BST {
         this.inOrderTraversal(right)
     }
     moveSubtree(source, target){
-        const values = []
+        if(this.BST[source]===undefined) return
 
-        const collect = (sourceIndex, targetIndex) => {
-            if(this.BST[sourceIndex]===undefined) return
-
-            values.push([targetIndex, this.BST[sourceIndex]])
-            collect(2 * sourceIndex + 1, 2 * targetIndex + 1)
-            collect(2 * sourceIndex + 2, 2 * targetIndex + 2)
-        }
-
-        const clear = (index) => {
-            if(this.BST[index]===undefined) return
-
-            const left = 2 * index + 1
-            const right = 2 * index + 2
-            this.BST[index] = undefined
-            clear(left)
-            clear(right)
-        }
-
-        collect(source, target)
-        clear(source)
-        values.forEach(([index, value]) => {
-            this.BST[index] = value
-        })
+        this.BST[target] = this.BST[source]
+        this.moveSubtree(2 * source + 1, 2 * target + 1)
+        this.moveSubtree(2 * source + 2, 2 * target + 2)
+        this.BST[source] = undefined
     }
-    delete_by_value(value,index=0){
-        if(this.BST[index]===undefined) return
+
+    deleteNode(index){
         const left = 2 * index + 1
         const right = 2 * index + 2
 
-        if(value<this.BST[index]){
-            this.delete_by_value(value,left)
-        }   
-        else if(value>this.BST[index]){
-            this.delete_by_value(value,right)
+        if(this.BST[left]===undefined && this.BST[right]===undefined){
+            this.BST[index] = undefined
+        } else if(this.BST[left]===undefined){
+            this.moveSubtree(right, index)
+        } else if(this.BST[right]===undefined){
+            this.moveSubtree(left, index)
+        } else {
+            let successor = right
+            while(this.BST[2 * successor + 1]!==undefined){
+                successor = 2 * successor + 1
+            }
+
+            this.BST[index] = this.BST[successor]
+            this.deleteNode(successor)
         }
-        else{
-            if(this.BST[left]===undefined && this.BST[right]===undefined){
-                this.BST[index]=undefined
-            }
-            else if(this.BST[left]===undefined){
-                this.moveSubtree(right, index)
-            }else if (this.BST[right]===undefined){
-                this.moveSubtree(left, index)
-            }
-            else{
-                let successor = right
-                let successorLeft = 2 * successor + 1
-                while(this.BST[successorLeft]!==undefined){
-                    successor = successorLeft
-                    successorLeft = 2 * successor + 1
-                }
-                this.BST[index] = this.BST[successor]
-                const successorRight = 2 * successor + 2
-                if(this.BST[successorRight]===undefined){
-                    this.BST[successor] = undefined
-                } else {
-                    this.moveSubtree(successorRight, successor)
-                }
-            }
-           }}
+    }
+
+    delete_by_value(value, index=0){
+        if(this.BST[index]===undefined) return
+
+        if(value < this.BST[index]){
+            this.delete_by_value(value, 2 * index + 1)
+        } else if(value > this.BST[index]){
+            this.delete_by_value(value, 2 * index + 2)
+        } else {
+            this.deleteNode(index)
+        }
+    }
 
 }
 
